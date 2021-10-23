@@ -335,7 +335,7 @@ public void DisplayCart(String where){
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JButton Cart_Add;
