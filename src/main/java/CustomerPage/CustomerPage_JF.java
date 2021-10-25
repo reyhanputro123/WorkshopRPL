@@ -42,7 +42,7 @@ public class CustomerPage_JF extends javax.swing.JFrame {
         Connection con = null; 
         try
         {
-            con = DriverManager.getConnection("jdbc:mysql://localhost/customer","root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/ProductDB","root","");
             
         } catch(Exception ex)
             
