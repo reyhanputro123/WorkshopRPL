@@ -16,43 +16,48 @@ import RegisterPage.CustomerRegister_JF;
 import RegisterPage.SellerRegister_JF;
 
 import java.sql.Connection;
+import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import net.proteanit.sql.DbUtils;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author queene
  */
 public class Tracker_JF extends javax.swing.JFrame {
-
+    public Statement st;
+    public ResultSet rs;
+    public PreparedStatement pst = null; 
+    public DefaultTableModel tabModel;
+    Connection cn = Config.DBKoneksi1.koneksiDb1();
     /**
      * Creates new form Tracker_JF
      */
-    
-    PreparedStatement pst = null;
-    ResultSet rs = null;
-    Connection con;
-    
+  
     String query = "SELECT * FROM tracker";
     //select datas from database, set model and put datas into jtables
     
-    private void visitData() {
+    private void DateRange() {
         try {
-            String query = "SELECT 'id', 'product_id', 'user_id', 'event', 'date', 'timestamp'";
-            pst = (PreparedStatement) con.prepareStatement(query);
-            rs = pst.executeQuery();
-            trackerTable.setModel(net.proteanit.sql.DbUtils.resultSetToTableModel(rs));
-        }catch (Exception ex){
-            
+            String value1, value2;
+            value1 = fdate.getDate().toString();
+            value2 = tdate.getDate().toString();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
     }
     
+
     public Tracker_JF() {
         initComponents();
+      
+        this.setLocationRelativeTo(null);
+        //DateRange(query);
     }
 
     /**
@@ -78,7 +83,7 @@ public class Tracker_JF extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        trackerTable1 = new javax.swing.JTable();
+        stockTable = new javax.swing.JTable();
         historyButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -109,8 +114,10 @@ public class Tracker_JF extends javax.swing.JFrame {
 
         trackerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
+                { new Integer(1), null, null, null, null, null},
+                { new Integer(2), null, null, null, null, null},
+                { new Integer(3), null, null, null, null, null},
+                { new Integer(4), null, null, null, null, null},
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null}
             },
@@ -150,6 +157,11 @@ public class Tracker_JF extends javax.swing.JFrame {
         jLabel5.setText("To");
 
         searchDateButton.setText("Search");
+        searchDateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchDateButtonActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel2.setText("User");
@@ -157,7 +169,7 @@ public class Tracker_JF extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
         jLabel4.setText("Stock");
 
-        trackerTable1.setModel(new javax.swing.table.DefaultTableModel(
+        stockTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -183,7 +195,7 @@ public class Tracker_JF extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(trackerTable1);
+        jScrollPane2.setViewportView(stockTable);
 
         historyButton.setText("View History");
         historyButton.setToolTipText("");
@@ -307,6 +319,10 @@ public class Tracker_JF extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void searchDateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchDateButtonActionPerformed
+
+    }//GEN-LAST:event_searchDateButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -341,6 +357,8 @@ public class Tracker_JF extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
@@ -359,8 +377,8 @@ public class Tracker_JF extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton searchDateButton;
     private javax.swing.JButton searchItemButton1;
+    public javax.swing.JTable stockTable;
     private com.toedter.calendar.JDateChooser tdate;
-    private javax.swing.JTable trackerTable;
-    private javax.swing.JTable trackerTable1;
+    public javax.swing.JTable trackerTable;
     // End of variables declaration//GEN-END:variables
 }
