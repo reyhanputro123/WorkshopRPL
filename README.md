@@ -6,7 +6,7 @@
  - No change 
 3. CustomerPage PACKAGE
  - customer_form -> CustomerPage_JF
- - cumstomer_page2 -> CustomerPage
+ - customer_page2 -> CustomerPage
 4. LoginPage PACKAGE
  - LoginPage -> LoginPage_JF
  - CustomerPage -> CustomerLogin_JF
@@ -14,6 +14,7 @@
 5. ProductDetailPage PACKAGE 
  - ProductDetailPage -> PDP
  - ProductDetailPage -> PDP1
+ - CartPager -> CheckoutUser_JF
 6. ProfilePage PACKAGE
  - user_form -> CustomerProfile_JF
  - PageSeller -> SellerProfile_JF
