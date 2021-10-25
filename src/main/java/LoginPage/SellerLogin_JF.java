@@ -6,18 +6,28 @@
 package LoginPage;
 import LoginPage.LoginPage_JF;
 import ProfilePage.SellerProfile_JF;
+import CustomerPage.CustomerPage_JF;
 
+import java.sql.SQLException;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.DriverManager;
 /**
  *
  * @author Alvan
  */
 public class SellerLogin_JF extends javax.swing.JFrame {
-
+    public PreparedStatement st;
+    public ResultSet rs;
+    Connection cn = Config.DBKoneksi.koneksiDb();
     /**
      * Creates new form SellerLogin_JF
      */
     public SellerLogin_JF() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     
@@ -37,12 +47,13 @@ public class SellerLogin_JF extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         Button_SellerLogin = new javax.swing.JButton();
         Seller_Password = new javax.swing.JPasswordField();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Obligatory Seller Login Page");
+        jLabel1.setText("Welcome Back, Seller");
 
         Back_Seller.setFont(new java.awt.Font("Century Schoolbook", 0, 14)); // NOI18N
         Back_Seller.setText("Back");
@@ -75,6 +86,19 @@ public class SellerLogin_JF extends javax.swing.JFrame {
 
         Seller_Password.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
 
+        jPanel2.setBackground(new java.awt.Color(153, 153, 153));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 197, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,16 +106,11 @@ public class SellerLogin_JF extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(Back_Seller, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Button_SellerLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(99, 99, 99))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(194, 194, 194)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(225, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -99,10 +118,18 @@ public class SellerLogin_JF extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Seller_Username, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                             .addComponent(Seller_Password))
-                        .addGap(213, 213, 213))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Button_SellerLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(292, 292, 292))))
+                        .addGap(10, 10, 10))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(194, 194, 194)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(Back_Seller, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,11 +144,14 @@ public class SellerLogin_JF extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addComponent(Seller_Password))
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
                 .addComponent(Button_SellerLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addComponent(Back_Seller, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addGap(24, 24, 24))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -138,19 +168,27 @@ public class SellerLogin_JF extends javax.swing.JFrame {
     }//GEN-LAST:event_Seller_UsernameActionPerformed
 
     private void Button_SellerLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_SellerLoginActionPerformed
-        String Username = "201";
-        String Password = "ABCD1234";
-        if (Username.equalsIgnoreCase(Seller_Username.getText()) && Password.equalsIgnoreCase(Seller_Password.getText())){
+        String Username = Seller_Username.getText();
+        String Password = Seller_Password.getText();
+        try{
+        st = cn.prepareStatement("SELECT Username, Password FROM Sellers WHERE Username = ? and Password = ?");
+        st.setString(1, Username);
+        st.setString(2, Password);
+        rs = st.executeQuery();
+        if (rs.next()){
             this.setVisible(false);
-            javax.swing.JOptionPane.showMessageDialog(null, "YOU ARE LOGGED IN");
-            SellerProfile_JF PS = new SellerProfile_JF();
-            PS.show();
+            JOptionPane.showMessageDialog(null, "Welcome back, " + Seller_Username.getText());
+            CustomerPage_JF CF = new CustomerPage_JF();
+            CF.show();
         } else{
-            javax.swing.JOptionPane.showMessageDialog(null, "INVALID LOGIN");
+            JOptionPane.showMessageDialog(null, "Invalid Login, Please try again.");
             Seller_Username.setText("");
             Seller_Password.setText("");
             Seller_Username.requestFocus();
         }
+        } catch(Exception e){
+            e.printStackTrace();
+        }  
     }//GEN-LAST:event_Button_SellerLoginActionPerformed
 
     /**
@@ -196,5 +234,6 @@ public class SellerLogin_JF extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
