@@ -5,18 +5,29 @@
  */
 package RegisterPage;
 import LoginPage.LoginPage_JF;
+import LoginPage.SellerLogin_JF;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Alvan
  */
 public class SellerRegister_JF extends javax.swing.JFrame {
-
+    public Statement st;
+    public ResultSet rs;
+    public DefaultTableModel tabModel;
+    Connection cn = Config.DBKoneksi.koneksiDb();
     /**
      * Creates new form SellerRegister_JF
      */
     public SellerRegister_JF() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /** 
@@ -122,6 +133,11 @@ public class SellerRegister_JF extends javax.swing.JFrame {
         Register_Button.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         Register_Button.setForeground(new java.awt.Color(204, 0, 204));
         Register_Button.setText("REGISTER");
+        Register_Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Register_ButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -229,6 +245,27 @@ public class SellerRegister_JF extends javax.swing.JFrame {
     private void FirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FirstNameActionPerformed
+
+    private void Register_ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Register_ButtonActionPerformed
+        try {
+            st = cn.createStatement();
+            st.executeUpdate("INSERT INTO Sellers (first_name, last_name, Username, Password) VALUES('" 
+                + FirstName.getText() + "','"
+                + LastName.getText() + "','"
+                + Username.getText() + "','"
+                + Password.getText() + "')");
+            JOptionPane.showMessageDialog(null, "You can now Log in, Mr. " + LastName.getText());
+            FirstName.setText("");
+            LastName.setText("");
+            Username.setText("");
+            Password.setText("");
+            SellerLogin_JF SP = new SellerLogin_JF();
+            SP.show();
+            dispose();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+    }//GEN-LAST:event_Register_ButtonActionPerformed
 
     /**
      * @param args the command line arguments
