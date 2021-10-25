@@ -3,72 +3,75 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ProductDetailPage;
+
 import CustomerPage.CustomerPage_JF;
 import ProductDetailPage.CheckoutUser_JF;
+import ProductTracker.Tracker_JF;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author Alvan
  */
 public class PDP extends javax.swing.JFrame {
+
     public Statement st;
     public ResultSet rs;
     public DefaultTableModel tabModel;
     Connection cn = Config.DBKoneksi1.koneksiDb1();
+
     /**
      * Creates new form PDP
      */
-    
-    public void ProductTitle(){
+
+    public void ProductTitle() {
         Object[] Title = {
-            "ID","Name","Price","Stock","Image","Trend"
+            "ID", "Name", "Price", "Stock", "Image", "Trend"
         };
-        tabModel = new DefaultTableModel (null, Title);
+        tabModel = new DefaultTableModel(null, Title);
         Product_table.setModel(tabModel);
     }
-    
-    public void CartTitle(){
+
+    public void CartTitle() {
         Object[] Title = {
-            "ID","Name","Price","Stock","Image","Trend"
+            "ID", "Name", "Price", "Stock", "Image", "Trend"
         };
-        tabModel = new DefaultTableModel (null, Title);
+        tabModel = new DefaultTableModel(null, Title);
         Product_table.setModel(tabModel);
     }
-    
-    public void DisplayProduct(String where){
+
+    public void DisplayProduct(String where) {
         try {
             st = cn.createStatement();
             tabModel.getDataVector().removeAllElements();
             tabModel.fireTableDataChanged();
             rs = st.executeQuery("SELECT * FROM products " + where);
-    
+
             while (rs.next()) {
                 Object[] data = {
-                rs.getString("ID"),
-                rs.getString("Name"),
-                rs.getString("Price"),
-                rs.getString("Stock"),
-                rs.getString("Image"),
-                rs.getString("Trend"),
-                };
-        
+                    rs.getString("ID"),
+                    rs.getString("Name"),
+                    rs.getString("Price"),
+                    rs.getString("Stock"),
+                    rs.getString("Image"),
+                    rs.getString("Trend"),};
+
                 tabModel.addRow(data);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-   
-    
+
     public PDP() {
-       initComponents();
+        initComponents();
         ProductTitle();
         DisplayProduct("");
         this.setLocationRelativeTo(null);;
@@ -105,6 +108,11 @@ public class PDP extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        Product_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Product_tableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Product_table);
 
         BackButton.setBackground(new java.awt.Color(204, 204, 204));
@@ -169,14 +177,16 @@ public class PDP extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BackButton))
+                        .addComponent(BackButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Cart_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -214,18 +224,36 @@ public class PDP extends javax.swing.JFrame {
         try {
             st = cn.createStatement();
             st.executeUpdate("INSERT INTO cart (ID, Name, Price, Image) VALUES('"
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 0) + "','"
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 1) + "','"
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 2) + "','"
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 4) + "')");
+                    + Product_table.getValueAt(Product_table.getSelectedRow(), 0) + "','"
+                    + Product_table.getValueAt(Product_table.getSelectedRow(), 1) + "','"
+                    + Product_table.getValueAt(Product_table.getSelectedRow(), 2) + "','"
+                    + Product_table.getValueAt(Product_table.getSelectedRow(), 4) + "')");
             st.executeUpdate("UPDATE products SET stock = stock - 1 WHERE id = "
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 0));
+                    + Product_table.getValueAt(Product_table.getSelectedRow(), 0));
             DisplayProduct("");
             JOptionPane.showMessageDialog(null, "Product Added to Cart");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_Cart_AddActionPerformed
+
+    private void Product_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Product_tableMouseClicked
+        TableModel model1 = Product_table.getModel();
+        int indexs[] = Product_table.getSelectedRows();
+        
+        Object[] row = new Object[6];
+        
+        Tracker_JF TJF = new Tracker_JF();
+        
+       DefaultTableModel model2 = (DefaultTableModel)TJF.trackerTable.getModel();
+        for(int i = 0; i < indexs.length; i++) {
+            row[1] = model1.getValueAt(indexs[i], 0);   // Display's product id 
+            
+            model2.addRow(row);
+        }
+        
+        TJF.setVisible(true);
+    }//GEN-LAST:event_Product_tableMouseClicked
 
     /**
      * @param args the command line arguments
