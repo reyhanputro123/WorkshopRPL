@@ -6,13 +6,13 @@
 
 package ProductDetailPage;
 import CustomerPage.CustomerPage_JF;
+import ProductDetailPage.CheckoutUser_JF;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author Alvan
@@ -39,7 +39,7 @@ public class PDP extends javax.swing.JFrame {
             "ID","Name","Price","Stock","Image","Trend"
         };
         tabModel = new DefaultTableModel (null, Title);
-        Cart_table.setModel(tabModel);
+        Product_table.setModel(tabModel);
     }
     
     public void DisplayProduct(String where){
@@ -65,38 +65,13 @@ public class PDP extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-    public void DisplayCart(String where){
-        try {
-            st = cn.createStatement();
-            tabModel.getDataVector().removeAllElements();
-            tabModel.fireTableDataChanged();
-            rs = st.executeQuery("SELECT * FROM cart " + where);
-    
-            while (rs.next()) {
-                Object[] data = {
-                rs.getString("ID"),
-                rs.getString("Name"),
-                rs.getString("Price"),
-                rs.getString("Stock"),
-                rs.getString("Image"),
-                rs.getString("Trend"),
-                };
-        
-                tabModel.addRow(data);
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
+   
     
     public PDP() {
-        initComponents();
+       initComponents();
         ProductTitle();
         DisplayProduct("");
-        CartTitle();
-        DisplayCart("");
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);;
     }
 
     /**
@@ -108,48 +83,16 @@ public class PDP extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel4 = new javax.swing.JLabel();
-        Cart_Remove = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        BackButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Product_table = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        Cart_Add = new javax.swing.JButton();
+        BackButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        Cart_table = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        View_Cart = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        Cart_Add = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jLabel4.setText("My Cart");
-
-        Cart_Remove.setBackground(new java.awt.Color(204, 204, 204));
-        Cart_Remove.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        Cart_Remove.setText("Remove From Cart");
-        Cart_Remove.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Cart_RemoveActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Century", 1, 24)); // NOI18N
-        jLabel2.setText("Buy.Me");
-
-        BackButton.setBackground(new java.awt.Color(204, 204, 204));
-        BackButton.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        BackButton.setText("Back");
-        BackButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackButtonActionPerformed(evt);
-            }
-        });
-
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel1.setForeground(new java.awt.Color(153, 153, 153));
 
         Product_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -164,9 +107,50 @@ public class PDP extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(Product_table);
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Product List");
+        BackButton.setBackground(new java.awt.Color(204, 204, 204));
+        BackButton.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        BackButton.setText("Back");
+        BackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jLabel3.setText("Product Detail Page");
+
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel1.setForeground(new java.awt.Color(153, 153, 153));
+
+        View_Cart.setBackground(new java.awt.Color(204, 204, 204));
+        View_Cart.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        View_Cart.setText("View Cart");
+        View_Cart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                View_CartActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addComponent(View_Cart, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(View_Cart, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
+        );
+
+        jLabel2.setFont(new java.awt.Font("Century", 1, 24)); // NOI18N
+        jLabel2.setText("Buy.Me");
 
         Cart_Add.setBackground(new java.awt.Color(204, 204, 204));
         Cart_Add.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -176,49 +160,6 @@ public class PDP extends javax.swing.JFrame {
                 Cart_AddActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Cart_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(Cart_Add))
-                .addGap(4, 4, 4)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jLabel3.setBackground(new java.awt.Color(153, 153, 153));
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jLabel3.setText("Product Detail Page");
-
-        Cart_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(Cart_table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -231,15 +172,10 @@ public class PDP extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(BackButton)
+                            .addComponent(BackButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Cart_Remove)))
+                        .addComponent(Cart_Add, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -250,34 +186,17 @@ public class PDP extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Cart_Remove)
-                    .addComponent(BackButton))
+                    .addComponent(BackButton)
+                    .addComponent(Cart_Add))
                 .addGap(14, 14, 14))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void Cart_RemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cart_RemoveActionPerformed
-        try {
-            int Answer;
-
-            if ((Answer = JOptionPane.showConfirmDialog(null, "Are you sure about removing this?", "Confirm", JOptionPane.YES_NO_OPTION)) == 0) {
-                st = cn.createStatement();
-                st.executeUpdate("DELETE FROM cart WHERE ID ='"
-                    + tabModel.getValueAt(Cart_table.getSelectedRow(), 0) + "'");
-                DisplayCart("");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_Cart_RemoveActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         CustomerPage_JF CF = new CustomerPage_JF();
@@ -285,19 +204,24 @@ public class PDP extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_BackButtonActionPerformed
 
+    private void View_CartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_CartActionPerformed
+        CheckoutUser_JF CP = new CheckoutUser_JF();
+        CP.show();
+        dispose();
+    }//GEN-LAST:event_View_CartActionPerformed
+
     private void Cart_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cart_AddActionPerformed
         try {
             st = cn.createStatement();
-            st.executeUpdate("INSERT INTO cart (ID, Name, Price, Stock, Image, Trend) VALUES('"
+            st.executeUpdate("INSERT INTO cart (ID, Name, Price, Image) VALUES('"
                 + Product_table.getValueAt(Product_table.getSelectedRow(), 0) + "','"
                 + Product_table.getValueAt(Product_table.getSelectedRow(), 1) + "','"
                 + Product_table.getValueAt(Product_table.getSelectedRow(), 2) + "','"
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 3) + "','"
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 4) + "','"
-                + Product_table.getValueAt(Product_table.getSelectedRow(), 5) + "')");
+                + Product_table.getValueAt(Product_table.getSelectedRow(), 4) + "')");
+            st.executeUpdate("UPDATE products SET stock = stock - 1 WHERE id = "
+                + Product_table.getValueAt(Product_table.getSelectedRow(), 0));
+            DisplayProduct("");
             JOptionPane.showMessageDialog(null, "Product Added to Cart");
-            DisplayCart("");
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -341,15 +265,11 @@ public class PDP extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BackButton;
     private javax.swing.JButton Cart_Add;
-    private javax.swing.JButton Cart_Remove;
-    private javax.swing.JTable Cart_table;
     private javax.swing.JTable Product_table;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton View_Cart;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
